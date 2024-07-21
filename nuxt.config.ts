@@ -7,6 +7,9 @@ export default defineNuxtConfig({
   build: {
     transpile: ["vuetify"],
   },
+  plugins: [
+    '~/plugins/vuetify.ts',
+  ],
   vite: {
     define: {
       "process.env.DEBUG": false,
@@ -19,7 +22,7 @@ export default defineNuxtConfig({
   hooks: {
   },
   modules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
   ],
 })
 

@@ -7,10 +7,14 @@ const route = useRoute();
 const isOpen = ref(false);
 
 const isActive = (path: string) => route.path === path;
+
+const headerBgColor = computed(() => {
+  return isActive('/landing/read-mode') ? 'bg-[#F1F6FE]' : 'bg-white';
+});
 </script>
 
 <template>
-  <div class="p-3 bg-white w-full fixed z-50">
+    <div :class="['p-3', headerBgColor, 'w-full fixed z-50']">
     <div class="navbar bg-[#C0244F] rounded-lg">
       <div class="flex-1">
         <a class="btn btn-ghost text-xl logo-hover">

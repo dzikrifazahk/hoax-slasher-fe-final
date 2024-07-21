@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./pages/**/*.vue", "./nuxt.config.{js,ts}"],
+  content: ["./pages/**/**/*.vue", "./components/**/*.vue", "./nuxt.config.{js,ts}"],
   theme: {
     extend: {
       fontFamily: {
