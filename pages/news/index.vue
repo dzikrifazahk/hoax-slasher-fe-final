@@ -1,3 +1,8 @@
+<script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"]
+})
+</script>
 <template>
   <div class="overflow-x-auto">
     <table class="table">

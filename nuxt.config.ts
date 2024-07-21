@@ -22,8 +22,17 @@ export default defineNuxtConfig({
   hooks: {
   },
   modules: [
+    // '@nuxtjs/axios',
     '@nuxtjs/tailwindcss',
   ],
+  runtimeConfig: {
+    public: {
+      baseUrl: process.env.BASE_API_URL || "http://localhost:3000",
+    },
+  },
+  // axios: {
+  //   baseURL: 'https://reqres.in/api/',
+  // }
 })
 
 

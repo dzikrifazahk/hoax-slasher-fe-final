@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import Login from "~/components/landing/Login.vue";
-
 definePageMeta({
   layout: "landing",
+  middleware: ["auth"]
 });
 
 useHead({
   title: "Community",
 });
+
+import Login from "~/components/landing/Login.vue";
+
 </script>
 
 <template>
