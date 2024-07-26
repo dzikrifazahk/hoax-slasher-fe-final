@@ -3,3 +3,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.add-icons {
+    content: url("../icons/add.svg");
+    height: 30px;
+}
+
+.delete-icons {
+    content: url("../icons/delete.svg");
+    height: 30px;
+}
+
+.edit-icons {
+    content: url("../icons/edit.svg");
+    height: 30px;
+}
+
+.search-icons {
+    content: url("../icons/search.svg");
+    height: 30px;
+}

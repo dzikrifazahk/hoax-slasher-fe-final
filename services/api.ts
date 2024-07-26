@@ -1,11 +1,10 @@
-// services/api.ts
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 const conf = useRuntimeConfig();
 
 const api: AxiosInstance = axios.create({
   baseURL: conf.public.baseUrl,
-  timeout: 10000, // Request timeout
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,7 +21,7 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
 // Response interceptor
 api.interceptors.response.use((response: AxiosResponse) => {
-  return response.data;
+  return response;
 }, (error: AxiosError) => {
   // Handle errors
   return Promise.reject(error);

@@ -28,6 +28,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseUrl: process.env.BASE_API_URL || "http://localhost:3000",
+      baseImageUrl: process.env.BASE_IMAGE_URL,
     },
   },
   // axios: {

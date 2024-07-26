@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { newsService } from "~~/services";
-import { NewsType } from "~~/services/types/news";
 import { useTruncate } from "~~/composables/useTruncate";
-import { useFormatDate } from "~~/composables/formatDate";
+import { urlReqService } from "~~/services";
+import { IUrlRequest } from "~~/services/types/url-requests";
+import { ref, computed, onMounted } from "vue";
+
 const { truncateText } = useTruncate();
-const { formatDate } = useFormatDate();
+const urlReqRef = ref<IUrlRequest[]>([]);
+const token = useCookie("accessToken");
 
-const newsRef = ref<NewsType[]>([]);
-
+// Pagination state
 const currentPage = ref(1);
 const itemsPerPage = 10;
+
+// Search state
 const searchQuery = ref("");
 
 definePageMeta({
@@ -17,52 +20,53 @@ definePageMeta({
 });
 
 onMounted(() => {
-  fetchNews();
+  fetchUsers();
 });
 
-const fetchNews = () => {
-  newsService.getNews().then((res) => {
-    newsRef.value = res.data;
+const fetchUsers = () => {
+  urlReqService.getDatas(token.value).then((res) => {
+    urlReqRef.value = res.data;
   });
 };
 
+// Computed property for filtered data based on search query
 const filteredData = computed(() => {
-  if (!searchQuery.value) return newsRef.value;
-  return newsRef.value.filter(
-    (item) =>
-      item.source.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      item.author.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      item.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  if (!searchQuery.value) return urlReqRef.value;
+  return urlReqRef.value.filter((item) =>
+    item.url.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+    item.user_id.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
+// Computed property for paginated data
 const paginatedData = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   return filteredData.value.slice(start, start + itemsPerPage);
 });
 
+// Computed property for total pages
 const totalPages = computed(() => {
   return Math.ceil(filteredData.value.length / itemsPerPage);
 });
 
+// Methods to change page
 const setPage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page;
   }
 };
 </script>
+
 <template>
   <button class="btn bg-[#FA3454] text-white mb-5">Tambah Data</button>
   <div class="flex">
     <div class="w-full"></div>
     <div class="w-1/2">
-      <label
-        class="input input-bordered border-gray-400 flex items-center gap-2 bg-white"
-      >
+      <label class="input input-bordered border-gray-400 flex items-center gap-2 bg-white">
         <input
           type="text"
           class="grow"
-          placeholder="Search Title, Author, Source"
+          placeholder="Search"
           v-model="searchQuery"
         />
         <svg
@@ -82,32 +86,23 @@ const setPage = (page: number) => {
   </div>
   <div class="overflow-x-auto">
     <table class="table">
-      <!-- head -->
       <thead>
         <tr>
           <th></th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Author</th>
-          <th>Source</th>
-          <th>Publish Date</th>
-          <th>Validated Date</th>
-          <th>Is Training</th>
-          <th>Training Date</th>
+          <th>Url</th>
+          <th>User Id</th>
+          <th>Status</th>
+          <th>Is Scrapping</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(i, index) in paginatedData" :key="i.id">
-          <td>{{ index + 1 }}</td>
-          <td>{{ truncateText(i?.title, 15) ?? "-" }}</td>
-          <td>{{ truncateText(i?.description, 20) ?? "-" }}</td>
-          <td>{{ i?.author ?? "-" }}</td>
-          <td>{{ i?.source ?? "-" }}</td>
-          <td>{{ formatDate(i?.publish_date, "DD-MMM-YYYY MM:HH") ?? "-" }}</td>
-          <td>{{ formatDate(i?.validated_date, "DD-MM-YYYY") ?? "-" }}</td>
-          <td>{{ i?.is_training ?? "-" }}</td>
-          <td>{{ formatDate(i?.training_date, "DD-MM-YYYY") ?? "-" }}</td>
+          <td>{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
+          <td>{{ truncateText(i?.url, 15) ?? "-" }}</td>
+          <td>{{ truncateText(i?.user_id, 20) ?? "-" }}</td>
+          <td>{{ i?.status ?? "-" }}</td>
+          <td>{{ i?.is_scrapping ?? "-" }}</td>
           <td class="flex gap-2">
             <button class="btn btn-square btn-outline border">
               <i class="add-icons"></i>
@@ -125,9 +120,7 @@ const setPage = (page: number) => {
   </div>
   <div class="flex justify-end mt-4">
     <div class="mr-5">
-      <span
-        >Page <b>{{ currentPage }}</b> from <b>{{ totalPages }}</b></span
-      >
+      <span>Page <b>{{ currentPage }}</b> from <b>{{ totalPages }}</b></span>
     </div>
     <div class="join">
       <button

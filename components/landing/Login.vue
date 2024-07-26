@@ -97,17 +97,18 @@ const handleSubmit = async () => {
       password: password.value,
     };
 
-    const response = await api.post<LoginResultI>(
+    const response = await api.post<CommonApiResponse<LoginResultI>>(
       "/auth/login",
       body
     );
     
-    if(response.data.token){
+    console.log(response.data.data)
+    if(response.data.data.token){
       const token = useCookie('accessToken');
       const user = useCookie<UserLoginResultsI>('user');
 
-      token.value = response.data.token;
-      user.value = response.data.user;
+      token.value = response.data.data.token;
+      user.value = response.data.data.user;
 
       Swal.fire({
         icon: 'success',

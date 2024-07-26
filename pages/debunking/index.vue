@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { newsService } from "~~/services";
+import { debunkingService } from "~~/services";
 import { NewsType } from "~~/services/types/news";
 import { useTruncate } from "~~/composables/useTruncate";
 import { useFormatDate } from "~~/composables/formatDate";
+import { debunkingType } from "~~/services/types/debunking";
 const { truncateText } = useTruncate();
 const { formatDate } = useFormatDate();
+const conf = useRuntimeConfig();
 
-const newsRef = ref<NewsType[]>([]);
+const debunkingRef = ref<debunkingType[]>([]);
+const token = useCookie("accessToken");
 
 const currentPage = ref(1);
 const itemsPerPage = 10;
@@ -17,22 +20,20 @@ definePageMeta({
 });
 
 onMounted(() => {
-  fetchNews();
+  fetchDebunking();
 });
 
-const fetchNews = () => {
-  newsService.getNews().then((res) => {
-    newsRef.value = res.data;
+const fetchDebunking = () => {
+  debunkingService.getDebunkings(token.value).then((res) => {
+    debunkingRef.value = res.data;
+    console.log(JSON.stringify(debunkingRef.value, null, 2));
   });
 };
 
 const filteredData = computed(() => {
-  if (!searchQuery.value) return newsRef.value;
-  return newsRef.value.filter(
-    (item) =>
-      item.source.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      item.author.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      item.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  if (!searchQuery.value) return debunkingRef.value;
+  return debunkingRef.value.filter((item) =>
+    item.user_id.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
@@ -62,7 +63,7 @@ const setPage = (page: number) => {
         <input
           type="text"
           class="grow"
-          placeholder="Search Title, Author, Source"
+          placeholder="Search User Name"
           v-model="searchQuery"
         />
         <svg
@@ -86,28 +87,36 @@ const setPage = (page: number) => {
       <thead>
         <tr>
           <th></th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Author</th>
-          <th>Source</th>
-          <th>Publish Date</th>
-          <th>Validated Date</th>
-          <th>Is Training</th>
-          <th>Training Date</th>
+          <th>User Name</th>
+          <th>News</th>
+          <th>Reason</th>
+          <th>Evidence Links</th>
+          <th>Image</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(i, index) in paginatedData" :key="i.id">
           <td>{{ index + 1 }}</td>
-          <td>{{ truncateText(i?.title, 15) ?? "-" }}</td>
-          <td>{{ truncateText(i?.description, 20) ?? "-" }}</td>
-          <td>{{ i?.author ?? "-" }}</td>
-          <td>{{ i?.source ?? "-" }}</td>
-          <td>{{ formatDate(i?.publish_date, "DD-MMM-YYYY MM:HH") ?? "-" }}</td>
-          <td>{{ formatDate(i?.validated_date, "DD-MM-YYYY") ?? "-" }}</td>
-          <td>{{ i?.is_training ?? "-" }}</td>
-          <td>{{ formatDate(i?.training_date, "DD-MM-YYYY") ?? "-" }}</td>
+          <td>{{ truncateText(i?.user_id?.name, 10) ?? "-" }}</td>
+          <td>{{ i?.news.id ?? "-" }}</td>
+          <td>{{ truncateText(i?.reason, 50) ?? "-" }}</td>
+          <td>{{ truncateText(i?.evidence_links, 25) ?? "-" }}</td>
+          <td>
+            <div class="text-center">
+              <a
+                :href="
+                  `${conf.public.baseImageUrl}/debunking/${i?.file_name}` || `#`
+                "
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline text-blue-400"
+              >
+                Click Here To View
+              </a>
+            </div>
+          </td>
+
           <td class="flex gap-2">
             <button class="btn btn-square btn-outline border">
               <i class="add-icons"></i>

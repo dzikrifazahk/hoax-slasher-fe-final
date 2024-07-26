@@ -67,12 +67,12 @@ const sidebarItem: menu[] = [
   {
     title: "Trusted Source",
     icon: BrandOpenSourceIcon,
-    to: "/trusted Source",
+    to: "/trusted-Source",
   },
   {
     title: "Url Request",
     icon: BrowserIcon,
-    to: "/url-req",
+    to: "/url-request",
   },
   {
     title: "Users",
