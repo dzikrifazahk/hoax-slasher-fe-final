@@ -110,7 +110,7 @@ const showLeftContent = computed(() => {
               </p>
             </div>
             <div class="w-1/2 flex items-center justify-center">
-              <img src="img/banner.png" class="bg-cover" alt="banner" />
+              <!-- <img src="img/banner.png" class="bg-cover" alt="banner" /> -->
             </div>
           </div>
         </div>
