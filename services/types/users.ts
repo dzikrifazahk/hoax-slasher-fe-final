@@ -12,3 +12,15 @@ export interface UserType {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface IAddUserPayload {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  file: File | null;
+}
+
+export interface IResponseCreateData {
+  userId: string;
+}

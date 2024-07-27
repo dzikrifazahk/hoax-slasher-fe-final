@@ -1,13 +1,13 @@
 <template>
-  <dialog ref="modal" class="modal">
+  <dialog ref="modal" class="modal" style="z-index: 20;">
     <div class="modal-box bg-white">
-      <h3 class="text-lg font-bold">{{ title }}</h3>
+      <h3 class="text-lg font-bold font-poppins">{{ title }}</h3>
       <div class="py-4">
         <slot />
       </div>
-      <div class="modal-action">
+      <!-- <div class="modal-action">
         <button class="btn" @click="close">Close</button>
-      </div>
+      </div> -->
     </div>
   </dialog>
 </template>

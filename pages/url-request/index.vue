@@ -58,7 +58,6 @@ const setPage = (page: number) => {
 </script>
 
 <template>
-  <button class="btn bg-[#FA3454] text-white mb-5">Tambah Data</button>
   <div class="flex">
     <div class="w-full"></div>
     <div class="w-1/2">
@@ -104,12 +103,6 @@ const setPage = (page: number) => {
           <td>{{ i?.status ?? "-" }}</td>
           <td>{{ i?.is_scrapping ?? "-" }}</td>
           <td class="flex gap-2">
-            <button class="btn btn-square btn-outline border">
-              <i class="add-icons"></i>
-            </button>
-            <button class="btn btn-square btn-outline border">
-              <i class="edit-icons"></i>
-            </button>
             <button class="btn btn-square btn-outline border">
               <i class="delete-icons"></i>
             </button>

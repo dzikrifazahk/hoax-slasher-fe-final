@@ -23,3 +23,8 @@
     content: url("../icons/search.svg");
     height: 30px;
 }
+
+.refresh-icons {
+    content: url("../icons/refresh.svg");
+    height: 30px;
+}

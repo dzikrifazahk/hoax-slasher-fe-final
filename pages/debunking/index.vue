@@ -53,7 +53,6 @@ const setPage = (page: number) => {
 };
 </script>
 <template>
-  <button class="btn bg-[#FA3454] text-white mb-5">Tambah Data</button>
   <div class="flex">
     <div class="w-full"></div>
     <div class="w-1/2">
