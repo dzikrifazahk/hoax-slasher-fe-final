@@ -28,10 +28,10 @@ definePageMeta({
 });
 
 onMounted(() => {
-  fetchUsers();
+  fetchTrustedSource();
 });
 
-const fetchUsers = () => {
+const fetchTrustedSource = () => {
   trustedSourceService.getDatas(token.value).then((res) => {
     trustedSourceRef.value = res.data;
   });
@@ -75,7 +75,7 @@ const handleSubmit = async () => {
       timer: 1500,
     });
 
-    fetchUsers();
+    fetchTrustedSource();
     closeModal();
   } catch (error) {
     console.error("Error:", error);
@@ -115,7 +115,7 @@ const deleteUser = (id: string) => {
           showConfirmButton: false,
           timer: 1500,
         });
-        fetchUsers();
+        fetchTrustedSource();
         clearData();
       });
     } else if (result.dismiss === Swal.DismissReason.cancel) {
