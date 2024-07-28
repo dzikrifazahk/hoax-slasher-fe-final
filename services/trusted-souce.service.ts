@@ -20,9 +20,31 @@ export class TrustedSourceServices {
       "Content-Type": "application/json",
     };
 
-    const { data: response } = await api.get<
+    const { data: response } = await api.post<
       CommonApiResponse<ITrustedSource[]>
-    >("trusted-source", { headers });
+    >("trusted-source/createOrUpdate", payload, { headers });
     return response;
+  }
+
+  async getDataById(id: string) {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    const { data: resBody } = await api.get<CommonApiResponse<ITrustedSource>>(
+      `/trusted-source/${id}`,
+      { headers }
+    );
+    return resBody;
+  }
+
+  async deleteData(id: string) {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const { data: resBody } = await api.delete<
+      CommonApiResponse<ITrustedSource>
+    >(`/trusted-source/${id}`, { headers });
+    return resBody;
   }
 }

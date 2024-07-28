@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { EyeIcon } from "vue-tabler-icons";
 import { useTruncate } from '~/composables/useTruncate';
+import { newsService } from "~~/services";
 
 const { truncateText } = useTruncate();
 
@@ -25,6 +26,7 @@ const handleResize = () => {
 };
 
 onMounted(() => {
+  fetchNews();
   window.addEventListener("resize", handleResize);
 });
 
@@ -35,6 +37,11 @@ onUnmounted(() => {
 const showLeftContent = computed(() => {
   return isLeftContentVisible.value || windowWidth.value >= 768;
 });
+
+const fetchNews = async () => {
+  const getNews = await newsService.getNews('isValidated')
+  console.log(getNews)
+}
 </script>
 
 <template>

@@ -8,8 +8,8 @@ export interface ITrustedSource extends CommonColumn {
 }
 
 export interface IAddPayload {
-  id: string;
-  company_name: string;
-  company_description: string;
-  company_email: string;
+  id?: string;
+  companyName: string;
+  companyDescription: string;
+  companyEmail: string;
 }

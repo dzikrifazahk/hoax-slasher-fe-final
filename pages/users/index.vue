@@ -19,7 +19,6 @@ const usersRef = ref<UserType[]>([]);
 const token = useCookie("accessToken");
 const modalRef = ref();
 const modalTitle = ref("");
-const currentUser = ref<UserType | null>(null);
 const roles = Object.values(ERole);
 const selectedData = ref<UserType>();
 
@@ -52,7 +51,6 @@ const fetchUsers = () => {
 };
 
 const openAddModal = () => {
-  currentUser.value = null;
   modalTitle.value = "Add Data";
   modalRef.value?.show();
 };
@@ -72,7 +70,6 @@ const openEditModal = async (id: string) => {
       conf.public.baseImageUrl + "/" + path + "/" + getUserData.data.file_name;
   }
 
-  console.log(userData.value.userImage);
   modalTitle.value = "Change Data - Fill Password If Want To Change";
   modalRef.value?.show();
 };
@@ -138,7 +135,6 @@ const clearData = () => {
     userImage: "",
   };
   inpFileAttachment.value = null;
-  console.log(inpFileAttachment.value)
 };
 
 const deleteUser = (id: string) => {
