@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { debunkingService } from "~~/services";
-import { NewsType } from "~~/services/types/news";
 import { useTruncate } from "~~/composables/useTruncate";
 import { useFormatDate } from "~~/composables/formatDate";
 import { debunkingType } from "~~/services/types/debunking";

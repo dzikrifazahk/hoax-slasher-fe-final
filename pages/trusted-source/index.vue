@@ -210,7 +210,7 @@ const setPage = (page: number) => {
         <textarea
           class="textarea textarea-bordered h-24 bg-white border"
           v-model="trustedCompanyData.description"
-          placeholder="Bio"
+          placeholder="Description"
         ></textarea>
       </div>
     </div>
